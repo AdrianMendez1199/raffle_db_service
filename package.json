@@ -1,0 +1,32 @@
+{
+  "name": "raffle_db_service",
+  "version": "1.0.0",
+  "description": "gRPC service ",
+  "main": "index.js",
+  "author": "Adrian Mendez",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "remove": "rimraf ./dist",
+    "compile": "tsc",
+    "server": "node ./dist/index.js",
+    "build": "npm-run-all remove compile",
+    "lint": "tslint --project .",
+    "prod": "NODE_ENV=production npm-run-all build server",
+    "dev": "NODE_ENV=development npm-run-all build server",
+    "watch:dev": "nodemon"
+  },
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.4",
+    "grpc": "^1.24.3",
+    "sequelize": "^6.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "tslint": "^6.1.2",
+    "tslint-config-airbnb": "^5.11.2",
+    "typescript": "^3.9.5"
+  }
+}
