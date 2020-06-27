@@ -1,6 +1,8 @@
 import Mali from 'mali';
 import dotenv from 'dotenv';
 
+// import db from '../../../database';
+
 dotenv.config({
   path: `${__dirname}/../../../.env`,
 });
@@ -8,8 +10,8 @@ dotenv.config({
 const GRPCHOST = `${process.env.GRPC_AUTH_SERVICE_HOST}:${process.env.GRPC_AUTH_SERVICE_PORT}`;
 const PROTO_PATH = `${__dirname}/../../../proto/auth.proto`;
 
-const auth = (call: any, callback: CallableFunction) => {
-  console.log(call.request);
+const auth = (ctx: any) => {
+  // console.log(db);
 };
 
 /**
