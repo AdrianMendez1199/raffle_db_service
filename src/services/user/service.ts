@@ -24,6 +24,7 @@ const getWinner = (call: any, callback: CallableFunction) => {
 /**
  * Start gRPC server
  *
+ *
  */
 function server() {
   const server = new Server();
