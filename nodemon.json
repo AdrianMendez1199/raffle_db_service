@@ -1,5 +1,5 @@
 {
   "exec": "yarn dev",
-  "watch" : ["src/**"],
+  "watch" : ["*.ts"],
   "ext": "ts"
 }

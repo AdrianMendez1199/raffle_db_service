@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package user;
+
+message InputCreateUser {
+  string name = 1;
+  string IdentificationCard = 2;
+  int32 code = 3;
+}
+
+message Empty { }
+
+service UserService {
+  rpc createUser (InputCreateUser) returns (InputCreateUser);
+  rpc getWinner (Empty) returns (InputCreateUser);
+}
