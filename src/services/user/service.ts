@@ -1,39 +1,28 @@
-import { Server, ServerCredentials, loadPackageDefinition } from 'grpc';
-import { loadSync } from '@grpc/proto-loader';
+import dotenv from 'dotenv';
+import Mali from 'mali';
 
-const packageDefinition = loadSync(
-  `${__dirname}/../../../proto/user.proto`,
-  {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true,
-  });
+dotenv.config({
+  path: `${__dirname}/../../../.env`,
+});
 
+const PROTO_PATH = `${__dirname}/../../../proto/user.proto`;
+const GRPCHOST = `${process.env.GRPC_USER_SERVICE_HOST}:${process.env.GRPC_USER_SERVICE_PORT}`;
 
-const service: any = loadPackageDefinition(packageDefinition).user;
-
-const createUser = (call: any, callback: CallableFunction) => {
-  console.log(call.request);
+const createUser = (ctx: any) => {
+  console.log(ctx);
 };
 
-const getWinner = (call: any, callback: CallableFunction) => {
+const getWinner = (ctx: any) => {
+  console.log(ctx);
 };
 
 /**
- * Start gRPC server
- *
- *
+ * Start gRPC server with Mali
  */
-function server() {
-  const server = new Server();
-  server.addService(service.UserService.service, {
-    createUser,
-  });
-  server.bind('0.0.0.0:50051', ServerCredentials.createInsecure());
-  console.log('gRPC running on http://localhost:50051');
-  server.start();
+export function server() {
+  const service = new Mali(PROTO_PATH, 'UserService');
+  service.use({ createUser,  getWinner });
+  service.start(GRPCHOST);
+  console.info(`gRPC user service running on ${GRPCHOST}`);
 }
 
-server();
