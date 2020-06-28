@@ -1,21 +1,16 @@
-import path from 'path';
 import { loadPackageDefinition, credentials } from 'grpc';
 import { loadSync } from '@grpc/proto-loader';
 
-const PROTO_PATH =
-  loadSync(path.resolve(__dirname, '../../../proto/auth.proto'), {
+import { GRPC_HOST_AUTH, PROTO_AUTH_PATH } from '../const';
+
+const PROTO =
+  loadSync(PROTO_AUTH_PATH, {
     keepCase: true,
     enums: String,
     oneofs: true,
   });
 
-const authServiceClient: any = loadPackageDefinition(PROTO_PATH).auth;
+const authServiceClient: any = loadPackageDefinition(PROTO).auth;
 const authService = authServiceClient.AuthService;
 
-const authClient = new authService('0.0.0.0:9000', credentials.createInsecure());
-
-console.log(credentials.createInsecure())
-authClient.auth({ username: 'amendez', password: '12345' }, (err: any, resp: any) => {
-  console.log('err', err);
-  console.info(resp);
-});
+const authClient = new authService(GRPC_HOST_AUTH, credentials.createInsecure());

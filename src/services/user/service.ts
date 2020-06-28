@@ -1,28 +1,23 @@
-import dotenv from 'dotenv';
 import Mali from 'mali';
 
-dotenv.config({
-  path: `${__dirname}/../../../.env`,
-});
+import db from '../../../database';
+import { GRPC_HOST_USER, PROTO_PATH_USER  } from '../const';
 
-const PROTO_PATH = `${__dirname}/../../../proto/user.proto`;
-const GRPCHOST = `${process.env.GRPC_USER_SERVICE_HOST}:${process.env.GRPC_USER_SERVICE_PORT}`;
 
 const createUser = (ctx: any) => {
-  console.log(ctx);
+  ctx.res = { name: 'Prueba',  IdentificationCard: '1212', code: '1212' };
 };
 
 const getWinner = (ctx: any) => {
-  console.log(ctx);
 };
 
 /**
  * Start gRPC server with Mali
  */
 export function server() {
-  const service = new Mali(PROTO_PATH, 'UserService');
+  const service = new Mali(PROTO_PATH_USER, 'UserService');
   service.use({ createUser,  getWinner });
-  service.start(GRPCHOST);
-  console.info(`gRPC user service running on ${GRPCHOST}`);
+  service.start(GRPC_HOST_USER);
+  console.info(`gRPC user service running on ${GRPC_HOST_USER}`);
 }
 
