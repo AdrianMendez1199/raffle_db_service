@@ -13,4 +13,3 @@ const proto = loadSync(PROTO_PATH_USER, {
 const userServiceClient: any = loadPackageDefinition(proto).user;
 const UserService = userServiceClient.UserService;
 const userClient = new UserService(GRPC_HOST_USER, credentials.createInsecure());
-
