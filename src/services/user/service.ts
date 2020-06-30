@@ -9,6 +9,11 @@ interface User {
   code: number;
 }
 
+/**
+ * this function create user into db
+ * @param ctx 
+ * @returns @promise
+ */
 const createUser = async (ctx: any): Promise<User> => {
   const { name, identificationCard, code }: User = ctx.req;
 
@@ -21,7 +26,14 @@ const createUser = async (ctx: any): Promise<User> => {
   };
 };
 
-const getWinner = (ctx: any) => {
+const getWinner = async (ctx: any) => {
+  const winner = await db
+  .select('name', 'identificationCard', 'code')
+  .from<User>('users')
+  .orderByRaw('RANDOM()')
+  .limit(1);
+
+  return ctx.res = { ...winner[0] };
 };
 
 /**
