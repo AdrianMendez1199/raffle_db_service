@@ -4,8 +4,8 @@ package user;
 
 message InputCreateUser {
   string name = 1;
-  string IdentificationCard = 2;
-  string code = 3;
+  string identificationCard = 2;
+  int64 code = 3;
 }
 
 message Empty { }
