@@ -11,12 +11,11 @@ interface User {
 
 /**
  * this function create user into db
- * @param ctx 
+ * @param ctx
  * @returns @promise
  */
 const createUser = async (ctx: any): Promise<User> => {
   const { name, identificationCard, code }: User = ctx.req;
-
   const user: User[] = await db('users')
     .insert({ name, identificationCard, code: Number(code) })
     .returning(['name', 'identificationCard', 'code']);
