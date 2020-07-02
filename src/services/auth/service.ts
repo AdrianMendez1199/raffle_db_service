@@ -1,11 +1,22 @@
-import Mali from 'mali';
+import Mali, { Context } from 'mali';
 
 import db from '../../../database';
 import { GRPC_HOST_AUTH, PROTO_AUTH_PATH } from '../const';
 
-const auth = (ctx: any) => {
-  ctx.res = { username : 'test', password: '1234' };
-};
+/**
+ * this function check if user
+ * exists into databases
+ * @param ctx
+ */
+async function auth(ctx: Context) {
+  const { username, password } = ctx.req;
+
+  const user = await db('auth')
+  .where({ username, password })
+  .first();
+
+  return ctx.res = { ...user };
+}
 
 /**
  * Start gRPC server
