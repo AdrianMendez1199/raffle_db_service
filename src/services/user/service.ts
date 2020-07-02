@@ -1,9 +1,9 @@
-import Mali from 'mali';
+import Mali, { Context } from 'mali';
 
 import db from '../../../database';
 import { GRPC_HOST_USER, PROTO_PATH_USER } from '../const';
 
-interface User {
+export interface User {
   name: string;
   identificationCard: string;
   code: number;
@@ -14,7 +14,7 @@ interface User {
  * @param ctx
  * @returns @promise
  */
-const createUser = async (ctx: any): Promise<User> => {
+async function createUser(ctx: Context): Promise<User> {
   const { name, identificationCard, code }: User = ctx.req;
   const user: User[] = await db('users')
     .insert({ name, identificationCard, code: Number(code) })
@@ -23,9 +23,14 @@ const createUser = async (ctx: any): Promise<User> => {
   return ctx.res = {
     ...user[0],
   };
-};
+}
 
-const getWinner = async (ctx: any) => {
+/**
+ * this function select winner from database
+ * @param ctx
+ * @return @promise
+ */
+async function getWinner(ctx: Context): Promise<User> {
   const winner = await db
   .select('name', 'identificationCard', 'code')
   .from<User>('users')
@@ -33,7 +38,7 @@ const getWinner = async (ctx: any) => {
   .limit(1);
 
   return ctx.res = { ...winner[0] };
-};
+}
 
 /**
  * Start gRPC server with Mali
