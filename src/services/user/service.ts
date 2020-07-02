@@ -33,18 +33,19 @@ async function createUser(ctx: Context): Promise<User> {
  * @return @promise
  */
 async function getWinner(ctx: Context): Promise<User> {
-  const winner = await db
+  const winner: any = await db
   .select('id', 'name', 'code', 'identificationCard')
   .from<User>('users')
   .where({ winner: 0 })
   .orderByRaw('RANDOM()')
-  .limit(1);
+  .limit(1)
+  .first();
 
-  await db<User>('users')
-  .where({ id: winner[0].id })
+  await db('users')
+  .where({ id: winner.id })
   .update({ winner: 1 });
 
-  return ctx.res = { ...winner[0] };
+  return ctx.res = { ...winner };
 }
 
 /**
