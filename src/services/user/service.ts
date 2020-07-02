@@ -1,12 +1,14 @@
-import Mali from 'mali';
+import Mali, { Context } from 'mali';
 
 import db from '../../../database';
 import { GRPC_HOST_USER, PROTO_PATH_USER } from '../const';
 
-interface User {
+export interface User {
+  id?: number;
   name: string;
   identificationCard: string;
   code: number;
+  winner?: number;
 }
 
 /**
@@ -14,7 +16,7 @@ interface User {
  * @param ctx
  * @returns @promise
  */
-const createUser = async (ctx: any): Promise<User> => {
+async function createUser(ctx: Context): Promise<User> {
   const { name, identificationCard, code }: User = ctx.req;
   const user: User[] = await db('users')
     .insert({ name, identificationCard, code: Number(code) })
@@ -23,17 +25,28 @@ const createUser = async (ctx: any): Promise<User> => {
   return ctx.res = {
     ...user[0],
   };
-};
+}
 
-const getWinner = async (ctx: any) => {
-  const winner = await db
-  .select('name', 'identificationCard', 'code')
+/**
+ * this function select winner from database
+ * @param ctx
+ * @return @promise
+ */
+async function getWinner(ctx: Context): Promise<User> {
+  const winner: any = await db
+  .select('id', 'name', 'code', 'identificationCard')
   .from<User>('users')
+  .where({ winner: 0 })
   .orderByRaw('RANDOM()')
-  .limit(1);
+  .limit(1)
+  .first();
 
-  return ctx.res = { ...winner[0] };
-};
+  await db('users')
+  .where({ id: winner.id })
+  .update({ winner: 1 });
+
+  return ctx.res = { ...winner };
+}
 
 /**
  * Start gRPC server with Mali
