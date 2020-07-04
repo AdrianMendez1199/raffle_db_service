@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-export default {
+module.exports =  {
 
   development: {
     client: 'postgresql',
