@@ -1,4 +1,5 @@
 import { promisify } from 'util';
+import bcrypt from 'bcrypt';
 
 
 /**
@@ -24,4 +25,9 @@ export function convertCallbackClientToPromise(functionList: any): object {
   });
 
   return promises;
+}
+
+export async function encryptPassword(password: string): Promise<string> {
+  const salt: number = 10;
+  return await bcrypt.hash(password, salt);
 }
