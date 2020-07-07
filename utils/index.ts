@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 
 /**
- *
+ * Convert list functions in Promise
  * @param functionList
  */
 export function convertCallbackClientToPromise(functionList: any): object {
@@ -19,7 +19,7 @@ export function convertCallbackClientToPromise(functionList: any): object {
     }
   });
 
-  fn.map((i: any) => {
+  fn.map((i: string) => {
     promises[i] = promisify(functionList[i]).bind(functionList);
     return Object.assign({}, promises);
   });

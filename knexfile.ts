@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-module.exports =  {
+const config =  {
 
   development: {
     client: 'postgresql',
@@ -53,3 +53,5 @@ module.exports =  {
   },
 
 };
+
+export default config;

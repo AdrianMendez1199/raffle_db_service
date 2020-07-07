@@ -8,8 +8,13 @@ const servicePath = path.join(__dirname, 'src/services/');
 // Converting glob in promise
 const gb = promisify(glob);
 
+let ext: string = '.ts';
+
+if (process.env.NODE_ENV === 'production') {
+  ext = '.js';
+}
 // iter all service file to up gRPC servers
-gb(`${servicePath}**/service.ts`)
+gb(`${servicePath}**/service${ext}`)
   .then((resp: any) => {
     resp.forEach((file: string) => {
       const service = require(file);
